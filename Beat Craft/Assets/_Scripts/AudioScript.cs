@@ -24,15 +24,16 @@ public class AudioScript : MonoBehaviour {
             records[i] = new List<float>();
         }
 
-        StartCoroutine(Record(records));
+       // StartCoroutine(Record(records));
         StartCoroutine(Play(records));
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Update ?");
        /*
-       * We just play without recording (we erease the beat of that key)
+       * We just play without recording
        * Key to index mapping : 
        * A = 0; B = 1 ..... Z = 25; 
        *        
@@ -45,7 +46,6 @@ public class AudioScript : MonoBehaviour {
             int index = (int)kcode - 97;
               if (index >= 0 && index <= 26)
               {
-                sources[index].clip = clips[index];
                 sources[index].Play();
               }
               if (index == (27 - 97))
@@ -62,43 +62,61 @@ public class AudioScript : MonoBehaviour {
       
     }
 
-    IEnumerator Record(List<float>[] records) {
-        while (Input.GetKeyDown("space"))
-        {
-            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+    IEnumerator Record(List<float>[] records)
+    {
+        //while(true) {
+            //new WaitForSeconds(5);
+            while (Input.GetKey("space"))
             {
-                int? index = null;
-                if (Input.GetKeyDown(kcode) && (!index.HasValue || ((int)kcode - 97) == index))
+                Debug.Log("Recording");
+                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
                 {
-                    if (!index.HasValue)
+                    int? index = null;
+                    if (Input.GetKeyDown(kcode) && (!index.HasValue || ((int)kcode - 97) == index))
                     {
-                        records[(int)index].Clear(); //we earse the previous record
-                        index = (int)kcode - 97;
-                        records[(int)index].Add(Time.time);
-                    }
-                    else
-                    {
-                        float prev = records[(int)index][records[(int)index].Count - 1];
-                        records[(int)index].Add(Time.time - prev);
+                        if (!index.HasValue)
+                        {
+                            records[(int)index].Clear(); //we earse the previous record
+                            index = (int)kcode - 97;
+                            records[(int)index].Add(Time.time);
+                        }
+                        else
+                        {
+                            float prev = records[(int)index][records[(int)index].Count - 1];
+                            records[(int)index].Add(Time.time - prev);
+                        }
                     }
                 }
+                yield return null;
             }
-            yield return null;
-        }
+        yield return new WaitForSeconds(0.3f);
+        //}
     }
 
-    IEnumerator Play(List<float>[] records){
-        int i;
-        for (i = 0; i < 26; i++) {
-            List<float> list = records[i];
-            int j;
-            for (j = 0; j < list.Count; j++) {
-                float time = list[j];
-
+    IEnumerator Play(List<float>[] records)
+    {
+        while (true)
+        {
+            int i;
+            for (i = 0; i < 26; i++)
+            {
+                Debug.Log(i);
+                List<float> list = records[i];
+                int j;
+                for (j = 0; j < list.Count; j++)
+                {
+                    Debug.Log("j");
+                    Debug.Log(j);
+                    yield return new WaitForSeconds(list[j]);
+                    sources[j].Play();
+                }
+                yield return null;
             }
-        
 
-            yield return null;
+            if (Input.GetKey("space"))
+            {
+                StartCoroutine(Record(records));
+            }
         }
     }
 }
