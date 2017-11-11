@@ -2,4 +2,4 @@
 
 This project is going to be awesome.
 
-Music mixing in virtual reality.
+<h1>Music mixing in virtual reality.</h1>
