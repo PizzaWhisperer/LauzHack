@@ -10,48 +10,87 @@ public class AudioScript : MonoBehaviour {
     [Header("Audio clips")]
     public AudioClip[] clips;
 
-    private bool[] playing;
-
+    private AudioClip[] records;
     private AudioSource MusicSource;
 
     // Use this for initialization
     void Start () {
+        records = new AudioClip[27];
         int i;
-        for (i = 0; i < 27; i++)
+        for (i = 0; i < 26; i++)
         {
-            sources[i] = gameObject.GetComponent<AudioSource>();
             sources[i].clip = clips[i];
-            playing[i] = false;
-        }
-
-        
+            //sources[i].loop = true;
+        }      
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        /*
-         * Key to index mapping : 
-         * A = 0; B = 1 ..... Z = 25; Space = 26; 
-         * If Esc pressed we stop everything
-         * 
-         * If pressed twice the beat stops
-         */
 
-        foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
-        {
-            if (Input.GetKeyDown(kcode))
-                Console.WriteLine(kcode);
-            Console.WriteLine((int)kcode);
-                //kcode is matched to (int)kcode ?
-                if (playing[(int)kcode])
+        /*while (Input.GetKeyDown("Space")) {
+            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+            {
+                int? index = null;
+                if (Input.GetKeyDown(kcode) && (!index.HasValue || ((int)kcode - 97) == index))
                 {
-                    sources[(int)kcode].Stop();
-                    playing[(int)kcode] = false;
+                    if !index.HasValue {
+                        records[index].
+                        index = (int)kcode - 97;
+                    }
+                    
+
+
                 }
-                else {
-                    sources[(int)kcode].Play();
-                    playing[(int)kcode] = true;
-                } 
+            }
+
+        }*/
+
+                /*
+                 * Key to index mapping : 
+                 * A = 0; B = 1 ..... Z = 25; 
+                 *        
+                 * If pressed twice the beat stops
+                 */
+
+         foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+         {
+
+            if (Input.GetKeyDown(kcode))
+            {
+                int index = (int)kcode - 97;
+
+                if (index >= 0 && index <= 26)
+                {
+                   /* if (sources[index].isPlaying)
+                    {
+                        sources[index].Stop();
+                    }
+                    else
+                    {*/
+                        sources[index].Play();
+                    //}
+                }
+                if (index == (27 - 97))
+                { //we pressed ESC
+                    int i;
+                    for (i = 0; i < 26; i++)
+                    {
+                        sources[i].Stop();
+                    }
+                }
+            }
         }
-	}
+
+        
+        /*if (/*Dial is pressed) {
+          //clip = Microphone.Start("Built-in Microphone", true, 6, 44100);
+          //we update sources[index].clip = clip;
+        }
+
+        if (Dial is sofly pressed)
+        {
+          //clip = Microphone.Start("Built-in Microphone", true, 3, 44100);
+          //we update sources[index].clip = clip;
+        }*/
+    }
 }
