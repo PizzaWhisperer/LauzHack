@@ -47,6 +47,7 @@ public class AudioScript : MonoBehaviour {
             int index = (int)kcode - 97;
               if (index >= 0 && index <= 26)
               {
+                sources[index].pitch = CrownController.getMultiplicator();
                 sources[index].Play();
               }
               if (index == (27 - 97))
@@ -155,6 +156,7 @@ public class AudioScript : MonoBehaviour {
                 {
                   
                     yield return new WaitForSeconds(list[j]);
+                    sources[i].pitch = CrownController.getMultiplicator();
                     sources[i].Play();
                 }
                 yield return null;
