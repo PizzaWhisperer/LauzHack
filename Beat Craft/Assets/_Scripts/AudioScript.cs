@@ -38,6 +38,7 @@ public class AudioScript : MonoBehaviour {
             records[i] = new List<float>();
         }
 
+<<<<<<< HEAD
         loopToPlay.Add(new Record(-1, Time.time));
         loopToPlay.Add(new Record(1, 1.5f));
         //loopToPlay.Add(new Record(4, 0.5f));
@@ -45,6 +46,46 @@ public class AudioScript : MonoBehaviour {
         //{
         //    0f, 1f, 2f
         //};
+=======
+        //StartCoroutine(Play(records));
+        StartCoroutine(Record(records));
+       
+        }
+
+    // Update is called once per frame
+    void Update()
+    {
+       /*
+       * We just play without recording
+       * Key to index mapping : 
+       * A = 0; B = 1 ..... Z = 25; 
+       *  
+       */
+       foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+       {
+          if (Input.GetKeyDown(kcode))
+          {
+            int index = (int)kcode - 97;
+              if (index >= 0 && index <= 26)
+              {
+                sources[index].pitch = CrownController.getMultiplicator();
+                sources[index].Play();
+              }
+              if (index == (27 - 97))
+              { //we pressed ESC
+                int i;
+                for (i = 0; i < 26; i++)
+                {
+                  records[i].Clear(); //we erease all the beats
+                  sources[i].Stop();
+                }
+              }
+          }
+       }
+       
+            
+        
+>>>>>>> origin/Mathilde
 
         // StartCoroutine(Record(records));
         StartCoroutine(Play(records));
@@ -152,7 +193,19 @@ public class AudioScript : MonoBehaviour {
                     loopToPlay[0] = new Record(-1, Time.time);
                 }
                
+<<<<<<< HEAD
                 
+=======
+                int j;
+                for (j = 0; j < list.Count; j++)
+                {
+                  
+                    yield return new WaitForSeconds(list[j]);
+                    sources[i].pitch = CrownController.getMultiplicator();
+                    sources[i].Play();
+                }
+                yield return null;
+>>>>>>> origin/Mathilde
             }
         }
 
