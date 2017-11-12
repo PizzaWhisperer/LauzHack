@@ -120,6 +120,7 @@ public class CrownController : MonoBehaviour {
                 {
 
                     // received a crown turn event from Craft crown
+<<<<<<< HEAD
                     multiplicator += 1.0f * crownRootObject.delta / 180;
                     if(multiplicator < 0)
                     {
@@ -129,6 +130,9 @@ public class CrownController : MonoBehaviour {
                     {
                         multiplicator = 3;
                     }
+=======
+                    multiplicator += 1.0 * crownRootObject.delta / 180;
+>>>>>>> 1da8588cb2b11b02f6a3918b12303ee0cc38f449
                     UnityEngine.Debug.Log("Multiplicator is now at : " + multiplicator + "\n");
 
                 }
@@ -380,6 +384,7 @@ public class CrownController : MonoBehaviour {
 
     }
 
+<<<<<<< HEAD
     private static float multiplicator;
     private static bool recording;
 
@@ -393,6 +398,11 @@ public class CrownController : MonoBehaviour {
         return recording;
     }
 
+=======
+    private static double multiplicator;
+    private static bool recording;
+
+>>>>>>> 1da8588cb2b11b02f6a3918b12303ee0cc38f449
     // Use this for initialization
     void Start () {
         UnityEngine.Debug.Log("Let's go");
